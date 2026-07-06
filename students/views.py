@@ -126,6 +126,8 @@ def edit_profile(request):
     return render(request,'accounts/edit_profile.html')
 
 
+
+@login_required
 def change_password(request):
     if request.method =="POST":
         old_password = request.POST.get('old_password')
