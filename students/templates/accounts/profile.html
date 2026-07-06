@@ -10,6 +10,13 @@
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white text-center">
                     <h3>User Profile</h3>
+                     {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-info">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered">
@@ -33,6 +40,7 @@
                     <div class="d-grid gap-2">
                        
                             <a class="btn btn-success" href="{% url 'edit_profile' %}">Edit Profile</a>
+                            <a class="btn btn-success" href="{% url 'change_password' %}">Change Password</a>
                         
                         <a href="{% url 'student_list' %}" class="btn btn-success"> Dashboard</a>
                         <a href="{% url 'logout' %}" class="btn btn-danger">Log Out </a>

@@ -5,6 +5,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Student
 from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from django.contrib.auth.models import User
 
 
 # ------------------------
@@ -121,3 +124,26 @@ def edit_profile(request):
         user.save()
         return redirect("profile")
     return render(request,'accounts/edit_profile.html')
+
+
+def change_password(request):
+    if request.method =="POST":
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        user = request.user
+
+        if not user.check_password(old_password):
+            messages.error(request,'Old password is Incorrect')
+        elif new_password != confirm_password:
+            messages.error(request,'Password do not Match')
+
+        else:
+            user.set_password(new_password)
+            user.save()
+
+            update_session_auth_hash(request, user)
+            messages.success(request,"Password changed Successfully")
+            return redirect ('profile')
+    return render(request,'accounts/change_password.html')    
